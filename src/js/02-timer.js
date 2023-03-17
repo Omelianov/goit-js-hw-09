@@ -65,6 +65,8 @@ class Timer {
         }
 
         this.isActive = true;
+        refs.startBtn.disabled = true;
+        refs.inputDate.disabled = true;
         this.timerID = setInterval(() => {
             const currentTime = Date.now();
             const deltaTime = selectedTime - currentTime;
@@ -72,8 +74,12 @@ class Timer {
             this.updateComponentsTimer(componentsTimer);
             if (deltaTime <= 0) {
                 this.stopTimer();
+                this.updateComponentsTimer({ days: '00', hours: '00', minutes: '00', seconds: '00' });
+                refs.startBtn.disabled = false;
+                refs.inputDate.disabled = false;
             }
         }, 1000);
+
     }
 
     updateComponentsTimer({ days, hours, minutes, seconds }) {
@@ -85,6 +91,7 @@ class Timer {
 
     stopTimer() {
         clearInterval(this.timerID);
+        this.isActive = false;
     }
 }
 
